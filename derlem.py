@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #author = Ahmet Aksoy, İlker Manap
-#Son güncelleme = 2016-03-01
+#Son güncelleme = 2016-03-12
 import sqlite3 as sql
 import os, time, datetime
 
@@ -109,6 +109,11 @@ class AnaSozluk(Veritabani):
     def liste_ekle(self, liste, gentop):
         var = 0
         say= len(liste)
+        if say <1:
+            print("Boş liste!")
+            print("Boş liste!",file=logfile,flush=True)
+            return
+
         for kelime, sayi_ in liste.items():
             #if len(kelime)<2: continue  # Tek karakterlik kelimeleri atla
             soz = inceltme_yok(kucukHarfYap(kelime))    # inceltme/uzatma işaretini kaldır
@@ -120,13 +125,7 @@ class AnaSozluk(Veritabani):
             else:
                 gensozluk[soz]=sayi_
                 #print("{:08d} {}".format(sayi_,soz))
-        """
-        fout = open("gensozluk.txt", "w", encoding="utf-8")
-        sorted(gensozluk.items(), key=lambda x:x[1])
-        for soz, sayi_ in gensozluk.items():
-            fout.write("{:08d} {}\n".format(sayi_,soz))
-        fout.close()
-        """
+
         fout = open("gensozluk.txt", "w", encoding="utf-8")
         sd = sorted(gensozluk.items(), key=lambda x:x[1], reverse=True)
         for saz in sd:
@@ -135,8 +134,8 @@ class AnaSozluk(Veritabani):
         fout.close()
 
         print()
-        print("{} Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say))
-        print("{} Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say),file=logfile,flush=True)
+        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say))
+        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say),file=logfile,flush=True)
 
 
     def ekle(self, sozcuk, sayi =1):
@@ -265,9 +264,11 @@ class Derlem:
         # o doküman daha önce çok büyük olasılıkla taranmıştır
         #if self.anasozluk.hepsi_varmi(temp)==True:
         if self.anasozluk.bellek_hepsi_varmi(temp)==True:
-            print("{} Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()))
-            print("{} Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()),file=logfile,flush=True)
+            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()))
+            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()),file=logfile,flush=True)
         else:
+            print("{} derlem.py Sözcükler ekleniyor!".format(damga()))
+            print("{} derlem.py Sözcükler ekleniyor!".format(damga()),file=logfile,flush=True)
             self.anasozluk.liste_ekle(temp,gentop)
 
 
@@ -301,8 +302,8 @@ class PDFDerlemMiner(Derlem):
                 content = retstr.getvalue()
                 retstr.close()
             except Exception as e:
-                print("{} {}".format(damga(),e))
-                print("{} {}".format(damga(),e),file=logfile)
+                print("{} derlem.py {}".format(damga(),e))
+                print("{} derlem.py {}".format(damga(),e),file=logfile)
                 logfile.flush()
                 pass
             return content

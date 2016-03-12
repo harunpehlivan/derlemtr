@@ -93,6 +93,10 @@ def turkcemi(metin,fout=None,printet=True):
     liste = parcala(metin)
     say = len(liste)
     print("Sozcuk sayısı = ",say)
+    if say <1:
+        print("Liste boş.")
+        print("Liste boş.",file=fout,flush=True)
+        return False
     var = 0
     yok = 0
     for soz in liste:
@@ -148,6 +152,6 @@ if __name__ == "__main__":
         sys.exit()
     finally:
         fin.close()
-
+    metin=""
     turkcemi(metin)
     print("Toplam çalışma süresi = {} saniye".format(time.perf_counter()-basla))
