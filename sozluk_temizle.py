@@ -53,8 +53,6 @@ if __name__ == "__main__":
         else:
             ygensozluk[key]=gensozluk[key]
 
-#TODO: w, x, q harfleri geçen sözcükler diğer geçersizlerden ayrıştırılacak
-#TODO: kaydetmeden önce tersten sıralama yapılacak
     sozluk_kaydet("xgensozluk.txt",xgensozluk)
     sozluk_kaydet("qgensozluk.txt",qgensozluk)
     sozluk_kaydet("ygensozluk.txt",ygensozluk)
