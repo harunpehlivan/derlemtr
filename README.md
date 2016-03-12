@@ -1,4 +1,4 @@
-# Trderlem
+# DerlemTr
 
 ## Python ile Türkçe derlem hazırlama
 
