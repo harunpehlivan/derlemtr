@@ -1,0 +1,26 @@
+#Veritabanına işlenen dosyaların listesi
+(2016.03.01)
+11 ADIM.pdf
+David Eddings - Belgariad 1 - Kehanetin Oyuncağı.pdf
+David Eddings - Belgariad 2 - Büyücüler Kraliçesi.pdf
+Dundar, Can - Büyülü Fener.pdf
+Hastane.pdf
+(2016.02.29)
+Ahmet Altan - Aldatmak.txt
+Akar, Atilla - Komploların Yüzyılı.txt
+alice.txt
+avalon.txt
+Başkasının Karısı.txt
+calikusu.txt
+ilham veren öyküler.txt
+kitap.txt
+Motivasyon.txt
+nazim.txt
+Sabahattin_Ali-Degirmen_Kagni_Ses.txt
+Eleanor_H_Porter-Pollyanna.txt
+Fakir Baykurt-TIRPAN.txt
+hayvanmezarlığı.txt
+Jose_Mauro_de_Vasconcelos-Seker_Portakali.txt
+miskin.txt
+PauloCoelho_Simyacı.txt
+PLATON-MEKTUPLAR.txt

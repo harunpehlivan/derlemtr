@@ -1,0 +1,2 @@
+0000000000000000000000000000000000000000 9a801b3a1e05b33a429e65cc1465b92e65f80a6d ahmetax <ahmetaksoy@gurmezin.com> 1457453483 +0200	pull --progress --rebase --prune origin master: storing head
+9a801b3a1e05b33a429e65cc1465b92e65f80a6d 7f3ec640cfb4fe0009ed7c8ae6165e08d4c694a8 ahmetax <ahmetaksoy@gurmezin.com> 1457754321 +0200	pull --progress --rebase --prune origin master: fast-forward
