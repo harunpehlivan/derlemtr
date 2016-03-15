@@ -84,8 +84,10 @@ def sayfaOku(sayfa_url):
         print(e)
         print(sayfa_url)
         return None
-    #soup = BeautifulSoup(r.content,"lxml")
-    soup = BeautifulSoup(r.content,"html.parser")
+    try:
+        soup = BeautifulSoup(r.content,"lxml")
+    except:
+        soup = BeautifulSoup(r.content,"html.parser")
 
     #print(soup.prettify())
     return soup
