@@ -24,7 +24,7 @@
 - Derlem sınıfı oluşturuldu (2016.02.08)- (2016.02.08)
 - İnternet üzerinden adresi belli .txt dosyası okuyan sınıf yazıldı (2016.02.08)- (2016.02.08)
 
-## İPTAL EDİLEN KISA VADELİ HEDEFLER
+### İPTAL EDİLEN KISA VADELİ HEDEFLER
 - Dosya adı ve hash bilgilerini ana listede toplama (2016.02.08) - (2016.03.21 İPTAL)
 - .doc / .docx uzantılı dokümanlarda sözcük ayrıştırma (2016.02.08) - (2016.03.21 İPTAL)
 - .odt uzantılı dokümanlarda sözcük ayrıştırma (2016.02.08) - (2016.03.21 İPTAL)
