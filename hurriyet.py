@@ -6,7 +6,7 @@
 #Python 3.5.1 ile test edildi
 from selenium import webdriver
 from urllib.parse import urlparse
-import turlib
+from  turlib import *
 import turkcemi
 from derlem import *
 import re
@@ -42,7 +42,7 @@ def get_driver():
     return driver
 
 def sayfa_oku(b,basla):
-    sayfa = turlib.sayfaOku(b)
+    sayfa = sayfaOku(b)
     if sayfa == None:
         print("{} Sayfa okunamadı: {}".format(modname,b))
         print("{} Sayfa okunamadı: {}".format(modname,b),file=outfile, flush=True)
@@ -76,11 +76,11 @@ def sayfa_oku(b,basla):
         if (turkcemi.turkcemi(parag, fout=outfile) == True) and (len(parag)>=400):
             print("Bu metin Türkçedir")
             print("Bu metin Türkçedir", file=outfile, flush=True)
-            print("{} {:06d} {} {}".format(damga(), sayfasay,modname,b), flush=True)
-            print("{} {:06d} {} {}".format(damga(),sayfasay,modname,b),file=outfile, flush=True)
+            print("{} {:06d} {} {}".format(damgatar(), sayfasay,modname,b), flush=True)
+            print("{} {:06d} {} {}".format(damgatar(),sayfasay,modname,b),file=outfile, flush=True)
             txttest = TXTDerlemTRText(parag)
-            print("{} {} Toplam çalışma süresi = {} saniye".format(damga(),modname,time.perf_counter()-basla),flush=True)
-            print("{} {} Toplam çalışma süresi = {} saniye".format(damga(),modname,time.perf_counter()-basla),file=outfile,flush=True)
+            print("{} {} Toplam çalışma süresi = {} saniye".format(damgatar(),modname,time.perf_counter()-basla),flush=True)
+            print("{} {} Toplam çalışma süresi = {} saniye".format(damgatar(),modname,time.perf_counter()-basla),file=outfile,flush=True)
         else:
             print(modname+" Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.")
             print(modname+" Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.",file=outfile,flush=True)
@@ -108,8 +108,8 @@ def load_arsiv_page(driver,adres):
         if b == adres: continue
         if b == base_url+"/index": continue
         sayfasay += 1
-        print("\n{} {} {} {:05d} {}".format(turlib.damga(), modname, turlib.gecen_sure(baslama), sayfasay, b))
-        print("\n{} {} {} {:05d} {}".format(turlib.damga(), modname, turlib.gecen_sure(baslama), sayfasay, b),file=outfile,flush=True)
+        print("\n{} {} {} {:05d} {}".format(damgatar(), modname, gecen_sure(baslama), sayfasay, b))
+        print("\n{} {} {} {:05d} {}".format(damgatar(), modname, gecen_sure(baslama), sayfasay, b),file=outfile,flush=True)
         #link başka bir siteye ait olmasın
         if base_url in b:
             sayfa_oku(b,basla)
@@ -118,15 +118,18 @@ def load_arsiv_page(driver,adres):
              print(modname+" Link başka siteye aittir: {}".format(b),file=outfile,flush=True)
 
 def main():
+    sene = 2011
+    if str(sene) not in GENSOZLUK_DOSYA_ADI:
+        print("Rapor yılı derlem.py GENSOZLUK_DOSYA_ADI'nda hatalı tanımlanmış. Lütfen düzeltin!")
+        return
     driver = get_driver()
-    sene = 2010
     pagestart = 1
     pageend=11
     if driver != None:
         for pageno in range(pagestart,pageend):
             adres = "http://www.hurriyet.com.tr/index/?p="+"{}&d={}".format(pageno,sene)
-            print("\n{} SayfaNo:{:06d} {}".format(damga(), pageno,adres), flush=True)
-            print("\n{} SayfaNo:{:06d} {}".format(damga(), pageno,adres),file=outfile, flush=True)
+            print("\n{} SayfaNo:{:06d} {}".format(damgatar(), pageno,adres), flush=True)
+            print("\n{} SayfaNo:{:06d} {}".format(damgatar(), pageno,adres),file=outfile, flush=True)
             load_arsiv_page(driver,adres)
         driver.quit()
 

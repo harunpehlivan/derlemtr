@@ -10,7 +10,7 @@ import os, time, datetime
 BHARFX = "Iİ"
 KHARFX = "ıi"
 
-GENSOZLUK_DOSYA_ADI = "gensozluk-2010.txt"
+GENSOZLUK_DOSYA_ADI = "gensozluk-2011.txt"
 
 AYRACLAR = ",\.;«»!?-:/\*+_=\"<>()'[]|º#&%"
 """
@@ -35,8 +35,11 @@ def gensozluk_oku():
     except:
         pass
 
-def damga():
+def xdamgax():
     return datetime.datetime.now().strftime('%H:%M:%S.%f')
+
+def damgatar():
+    return datetime.datetime.now().strftime('%Y%m%d-%H:%M:%S.%f')
 
 def kucukHarfYap(sozcuk):
     ss = ''
@@ -136,8 +139,8 @@ class AnaSozluk(Veritabani):
         fout.close()
 
         print()
-        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say))
-        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damga(),gentop, say,var,100*var/say),file=logfile,flush=True)
+        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say))
+        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say),file=logfile,flush=True)
 
 
     def ekle(self, sozcuk, sayi =1):
@@ -266,11 +269,11 @@ class Derlem:
         # o doküman daha önce çok büyük olasılıkla taranmıştır
         #if self.anasozluk.hepsi_varmi(temp)==True:
         if self.anasozluk.bellek_hepsi_varmi(temp)==True:
-            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()))
-            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damga()),file=logfile,flush=True)
+            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()))
+            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()),file=logfile,flush=True)
         else:
-            print("{} derlem.py Sözcükler ekleniyor!".format(damga()))
-            print("{} derlem.py Sözcükler ekleniyor!".format(damga()),file=logfile,flush=True)
+            print("{} derlem.py Sözcükler ekleniyor!".format(damgatar()))
+            print("{} derlem.py Sözcükler ekleniyor!".format(damgatar()),file=logfile,flush=True)
             self.anasozluk.liste_ekle(temp,gentop)
 
 
@@ -304,8 +307,8 @@ class PDFDerlemMiner(Derlem):
                 content = retstr.getvalue()
                 retstr.close()
             except Exception as e:
-                print("{} derlem.py {}".format(damga(),e))
-                print("{} derlem.py {}".format(damga(),e),file=logfile)
+                print("{} derlem.py {}".format(damgatar(),e))
+                print("{} derlem.py {}".format(damgatar(),e),file=logfile)
                 logfile.flush()
                 pass
             return content
@@ -427,11 +430,11 @@ if __name__ == '__main__':
     klasor, dosyalar = txt_dosyabul(TXT_KLASOR)
     for d in dosyalar:
         dosyasay +=1
-        print("{} {:06d} {}".format(damga(),dosyasay,d))
-        print("{} {:06d} {}".format(damga(),dosyasay,d), file=logfile)
+        print("{} {:06d} {}".format(damgatar(),dosyasay,d))
+        print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
         txttest = TXTDerlemTR(klasor+"/"+d)
-        print("{} Toplam çalışma süresi = {} saniye".format(damga(),time.perf_counter()-basla))
-        print("{} Toplam çalışma süresi = {} saniye".format(damga(),time.perf_counter()-basla),file=logfile)
+        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
+        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
         logfile.flush()
 
     """
@@ -439,11 +442,11 @@ if __name__ == '__main__':
     klasor, dosyalar = pdf_dosyabul(PDF_KLASOR)
     for d in dosyalar:
         dosyasay +=1
-        print("{} {:06d} {}".format(damga(),dosyasay,d))
-        print("{} {:06d} {}".format(damga(),dosyasay,d), file=logfile)
+        print("{} {:06d} {}".format(damgatar(),dosyasay,d))
+        print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
         pdftest = PDFDerlemMiner(klasor+"/"+d)
-        print("{} Toplam çalışma süresi = {} saniye".format(damga(),time.perf_counter()-basla))
-        print("{} Toplam çalışma süresi = {} saniye".format(damga(),time.perf_counter()-basla),file=logfile)
+        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
+        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
         logfile.flush()
     """
     #log dosyamızı kapatıyoruz

@@ -28,8 +28,8 @@ def hepsi_turkce(kelime):
     return True
 
 #damga() fonksiyonu log satırlarının zamanını vurgulamak için kullanılıyor
-def damga():
-    return datetime.datetime.now().strftime('%H:%M:%S.%f')
+def damgatar():
+    return datetime.datetime.now().strftime('%Y%m%d-%H:%M:%S.%f')
 
 def gecen_sure(baslangic):
     now = int(time.time())
