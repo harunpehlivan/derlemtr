@@ -8,7 +8,7 @@
 
 
 ### GERÇEKLEŞEN KISA VADELİ HEDEFLER
-- Hürriyet Gazetesi 2010 yılı arşiv taraması (2016.03.18) - (2016.03.21)
+- Hürriyet Gazetesi 2010 yılı arşiv taraması tamamlandı (2016.03.18) - (2016.03.21)
 - .txt dosyalarının UTF-8, ASCII vb encoding yapısını tanıyıp ona göre çözümleme (2016.02.09) (2016.03.08)
 - Türkçe doküman toplama (2016.02.08) - (2016.03.02)
 - 590 dosya tarandı. derlem içeriği bir milyonu aştı. (2016.03.01) (2016.03.01)
