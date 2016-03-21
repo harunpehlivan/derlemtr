@@ -18,3 +18,9 @@
 
 - Yapılacaklar [Listeme](/TODO_list.md) Buradan ulaşabilirsiniz
 
+### Projeye aktif katkıda bulunan kişi ve kuruluşlar
+- Ahmet Aksoy - Yazılım
+- İlker Manap - Yazılım
+- Hüseyin Yılmaz: Kaynak temini
+- Hürriyet Gazetesi: Arşiv erişimi
+- 
