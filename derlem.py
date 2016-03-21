@@ -10,6 +10,8 @@ import os, time, datetime
 BHARFX = "Iİ"
 KHARFX = "ıi"
 
+GENSOZLUK_DOSYA_ADI = "gensozluk-2010.txt"
+
 AYRACLAR = ",\.;«»!?-:/\*+_=\"<>()'[]|º#&%"
 """
 Yapılan işlemleri loglamak daha sonra yapılacak kontroller için yararlı.
@@ -26,7 +28,7 @@ def logfile_ac():
 gensozluk = dict()
 def gensozluk_oku():
     try:
-        with open("gensozluk.txt",encoding="utf-8") as f:
+        with open(GENSOZLUK_DOSYA_ADI,encoding="utf-8") as f:
             for line in f:
                 l = line.split()
                 gensozluk[l[1].strip()] = int(l[0].strip())
@@ -126,7 +128,7 @@ class AnaSozluk(Veritabani):
                 gensozluk[soz]=sayi_
                 #print("{:08d} {}".format(sayi_,soz))
 
-        fout = open("gensozluk.txt", "w", encoding="utf-8")
+        fout = open(GENSOZLUK_DOSYA_ADI, "w", encoding="utf-8")
         sd = sorted(gensozluk.items(), key=lambda x:x[1], reverse=True)
         for saz in sd:
             s = "{:08d} {}\n".format(int(saz[1]), saz[0])

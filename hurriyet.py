@@ -92,6 +92,7 @@ def load_arsiv_page(driver,adres):
     base_url = get_base_url(adres)
     driver.get(adres)
     elements = driver.find_elements_by_xpath("//h3/a[@href]")
+    n=len(elements)
     for a in elements:
         try:
             b = a.get_attribute('href')
@@ -118,9 +119,9 @@ def load_arsiv_page(driver,adres):
 
 def main():
     driver = get_driver()
-    sene = 2016
+    sene = 2010
     pagestart = 1
-    pageend=10
+    pageend=11
     if driver != None:
         for pageno in range(pagestart,pageend):
             adres = "http://www.hurriyet.com.tr/index/?p="+"{}&d={}".format(pageno,sene)
