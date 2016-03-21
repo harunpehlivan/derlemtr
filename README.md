@@ -23,4 +23,4 @@
 - İlker Manap - Yazılım
 - Hüseyin Yılmaz: Kaynak temini
 - Hürriyet Gazetesi: Arşiv erişimi
-- 
+
