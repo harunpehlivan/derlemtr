@@ -2,28 +2,29 @@
 #hurriyet.py
 #2016-03-13
 #author = Ahmet Aksoy
-#Son güncelleme = 2016-03-13
+#Son güncelleme = 2016-04-01
 #Python 3.5.1 ile test edildi
 from selenium import webdriver
 from urllib.parse import urlparse
-from  turlib import *
+import turlib
 import turkcemi
-from derlem import *
+import derlem
 import re
 import time, datetime
 
 xharfler= {'ÅŸ':'ş','ÄŸ':'ğ','â€™':"'",'Ä±':'ı','Ã¶':'ö','Ã¼':'ü','Ã§':'ç','Â':' ',
            'Ä°':'İ','Ã‡':'Ç','Ã–':'Ö','Åž':'Ş','Äž':'Ğ','Ãœ':'Ü','â€¦':'...',
-           'â€œ':'“','â€':'”','Ã¢':'â','â€':'‘'}
+           'â€œ':'“','â€':'”','Ã¢':'â','â€':'‘',
+           'ð':'ğ','ý':'ı','þ':'ş','Ý':'İ','Þ':'Ş','Ð':'Ğ'}
 
 adresler = "http://www.hurriyet.com.tr/index/?p=250"
 modname = "hurriyet_py"
 
-sayfasay =0
+global outfilename
+
+habersay =0
 baslama = int(time.time())
 
-outfilename = "temp/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
-outfile = open(outfilename,"a",encoding="utf-8")
 
 def get_base_url(url):
     o =urlparse(url)
@@ -42,10 +43,9 @@ def get_driver():
     return driver
 
 def sayfa_oku(b,basla):
-    sayfa = sayfaOku(b)
+    sayfa = turlib.sayfaOku(b)
     if sayfa == None:
-        print("{} Sayfa okunamadı: {}".format(modname,b))
-        print("{} Sayfa okunamadı: {}".format(modname,b),file=outfile, flush=True)
+        turkcemi.mesajyaz("{} Sayfa okunamadı: {}".format(modname,b))
         return
 
     #TODO: link açıklamaları kalkmayacak
@@ -55,8 +55,7 @@ def sayfa_oku(b,basla):
 
     paragraflar = sayfa.find_all('div',attrs={'itemprop' : 'articleBody'})
     if len(paragraflar)==0:
-        print("Bu sayfada makale bulunmamaktadır.")
-        print("Bu sayfada makale bulunmamaktadır.",file=outfile, flush=True)
+        turkcemi.mesajyaz("Bu sayfada makale bulunmamaktadır.")
         return
     for pr in paragraflar:
         #script bölümlerini temizle
@@ -71,34 +70,27 @@ def sayfa_oku(b,basla):
         for i in xharfler.keys():
             parag=re.sub(i,xharfler[i],parag)
         #Başlık ile normal yazı arasına boşluk eklenmesi lazım
-        print(parag)
-        print(parag,file=outfile,flush=True)
-        if (turkcemi.turkcemi(parag, fout=outfile) == True) and (len(parag)>=400):
-            print("Bu metin Türkçedir")
-            print("Bu metin Türkçedir", file=outfile, flush=True)
-            print("{} {:06d} {} {}".format(damgatar(), sayfasay,modname,b), flush=True)
-            print("{} {:06d} {} {}".format(damgatar(),sayfasay,modname,b),file=outfile, flush=True)
-            txttest = TXTDerlemTRText(parag)
-            print("{} {} Toplam çalışma süresi = {} saniye".format(damgatar(),modname,time.perf_counter()-basla),flush=True)
-            print("{} {} Toplam çalışma süresi = {} saniye".format(damgatar(),modname,time.perf_counter()-basla),file=outfile,flush=True)
+        turkcemi.mesajyaz(parag)
+        if (turkcemi.turkcemi(parag) == True) and (len(parag)>=400):
+            turkcemi.mesajyaz("Bu metin Türkçedir")
+            turkcemi.mesajyaz("{} {:06d} {} {}".format(turlib.damgatar(),habersay,modname,b))
+            txttest = derlem.TXTDerlemTRText(parag)
+            turkcemi.mesajyaz("{} {} Toplam çalışma süresi = {} saniye".format(turlib.damgatar(),modname,time.perf_counter()-basla))
         else:
-            print(modname+" Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.")
-            print(modname+" Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.",file=outfile,flush=True)
+            turkcemi.mesajyaz(modname+" Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.")
 
 def load_arsiv_page(driver,adres):
-    global sayfasay
+    global habersay
     basla = time.perf_counter()
     if adres[-1]=='/': adres = adres[:-1]
     base_url = get_base_url(adres)
     driver.get(adres)
     elements = driver.find_elements_by_xpath("//h3/a[@href]")
-    n=len(elements)
     for a in elements:
         try:
             b = a.get_attribute('href')
         except Exception as e:
-            print("{} Exception -1: {}".format(modname,e))
-            print("{} Exception -1: {}".format(modname,e),file=outfile, flush=True)
+            turkcemi.mesajyaz("{} Exception -1: {}".format(modname,e))
             continue
         if b is None: continue
         if len(b)==0: continue
@@ -107,36 +99,36 @@ def load_arsiv_page(driver,adres):
         if not b.startswith(base_url): continue
         if b == adres: continue
         if b == base_url+"/index": continue
-        sayfasay += 1
-        print("\n{} {} {} {:05d} {}".format(damgatar(), modname, gecen_sure(baslama), sayfasay, b))
-        print("\n{} {} {} {:05d} {}".format(damgatar(), modname, gecen_sure(baslama), sayfasay, b),file=outfile,flush=True)
+        habersay += 1
+        turkcemi.mesajyaz("\n{} {} {} {:05d} {}".format(turlib.damgatar(), modname, turlib.gecen_sure(baslama), habersay, b))
         #link başka bir siteye ait olmasın
         if base_url in b:
             sayfa_oku(b,basla)
         else:
-             print(modname+" Link başka siteye aittir: {}".format(b))
-             print(modname+" Link başka siteye aittir: {}".format(b),file=outfile,flush=True)
+             turkcemi.mesajyaz(modname+" Link başka siteye aittir: {}".format(b))
 
 def main():
-    sene = 2011
-    if str(sene) not in GENSOZLUK_DOSYA_ADI:
-        print("Rapor yılı derlem.py GENSOZLUK_DOSYA_ADI'nda hatalı tanımlanmış. Lütfen düzeltin!")
+    sene = 2014
+    if str(sene) not in derlem.GENSOZLUK_DOSYA_ADI:
+        print("derlem.py dosyasında GENSOZLUK_DOSYA_ADI Yılı hatalı. Düzeltin.")
         return
-    driver = get_driver()
-    pagestart = 1
-    pageend=11
+    driver = get_driver()    
+    pagestart = 0
+    pageend=2810
     if driver != None:
+        turkcemi.outfilename = "temp/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
         for pageno in range(pagestart,pageend):
+            if pageno%10 ==0:
+                turkcemi.outfilename = "temp/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
             adres = "http://www.hurriyet.com.tr/index/?p="+"{}&d={}".format(pageno,sene)
-            print("\n{} SayfaNo:{:06d} {}".format(damgatar(), pageno,adres), flush=True)
-            print("\n{} SayfaNo:{:06d} {}".format(damgatar(), pageno,adres),file=outfile, flush=True)
+            turkcemi.mesajyaz("*"*50)
+            turkcemi.mesajyaz("\n{} SayfaNo:{:06d} {}".format(turlib.damgatar(), pageno,adres))
             load_arsiv_page(driver,adres)
         driver.quit()
 
-    outfile.close()
 
 if __name__ == "__main__":
-    gensozluk_oku()
+    derlem.gensozluk_oku()
     main()
     """
     b = "http://www.hurriyet.com.tr/basbakan-davutoglundan-onemli-aciklamalar-40067609"

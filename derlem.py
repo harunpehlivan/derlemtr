@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #author = Ahmet Aksoy, İlker Manap
-#Son güncelleme = 2016-03-12
+#Son güncelleme = 2016-03-24
 import sqlite3 as sql
 import os, time, datetime
+import turkcemi
 
 #BHARF = "ÇĞİIÖŞÜ"
 #KHARF = "çğiıöşü"
@@ -10,7 +11,7 @@ import os, time, datetime
 BHARFX = "Iİ"
 KHARFX = "ıi"
 
-GENSOZLUK_DOSYA_ADI = "gensozluk-2011.txt"
+GENSOZLUK_DOSYA_ADI = "gensozluk-2014.txt"
 
 AYRACLAR = ",\.;«»!?-:/\*+_=\"<>()'[]|º#&%"
 """
@@ -35,7 +36,7 @@ def gensozluk_oku():
     except:
         pass
 
-def xdamgax():
+def xdamgatar():
     return datetime.datetime.now().strftime('%H:%M:%S.%f')
 
 def damgatar():
@@ -115,8 +116,8 @@ class AnaSozluk(Veritabani):
         var = 0
         say= len(liste)
         if say <1:
-            print("Boş liste!")
-            print("Boş liste!",file=logfile,flush=True)
+            turkcemi.mesajyaz("Boş liste!")
+            #print("Boş liste!",file=logfile,flush=True)
             return
 
         for kelime, sayi_ in liste.items():
@@ -138,9 +139,9 @@ class AnaSozluk(Veritabani):
             fout.write(s)
         fout.close()
 
-        print()
-        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say))
-        print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say),file=logfile,flush=True)
+        #print()
+        turkcemi.mesajyaz("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say))
+        #print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say),file=logfile,flush=True)
 
 
     def ekle(self, sozcuk, sayi =1):
@@ -269,11 +270,11 @@ class Derlem:
         # o doküman daha önce çok büyük olasılıkla taranmıştır
         #if self.anasozluk.hepsi_varmi(temp)==True:
         if self.anasozluk.bellek_hepsi_varmi(temp)==True:
-            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()))
-            print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()),file=logfile,flush=True)
+            turkcemi.mesajyaz("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()))
+            #print("{} derlem.py Tüm kelimeler var! Bu belge daha önce taranmış!".format(damgatar()),file=logfile,flush=True)
         else:
-            print("{} derlem.py Sözcükler ekleniyor!".format(damgatar()))
-            print("{} derlem.py Sözcükler ekleniyor!".format(damgatar()),file=logfile,flush=True)
+            turkcemi.mesajyaz("{} derlem.py Sözcükler ekleniyor!".format(damgatar()))
+            #print("{} derlem.py Sözcükler ekleniyor!".format(damgatar()),file=logfile,flush=True)
             self.anasozluk.liste_ekle(temp,gentop)
 
 
@@ -307,9 +308,9 @@ class PDFDerlemMiner(Derlem):
                 content = retstr.getvalue()
                 retstr.close()
             except Exception as e:
-                print("{} derlem.py {}".format(damgatar(),e))
-                print("{} derlem.py {}".format(damgatar(),e),file=logfile)
-                logfile.flush()
+                turkcemi.mesajyazprint("{} derlem.py {}".format(damgatar(),e))
+                #print("{} derlem.py {}".format(damgatar(),e),file=logfile)
+                #logfile.flush()
                 pass
             return content
 
@@ -430,24 +431,24 @@ if __name__ == '__main__':
     klasor, dosyalar = txt_dosyabul(TXT_KLASOR)
     for d in dosyalar:
         dosyasay +=1
-        print("{} {:06d} {}".format(damgatar(),dosyasay,d))
-        print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
+        turkcemi.mesajyaz("{} {:06d} {}".format(damgatar(),dosyasay,d))
+        #print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
         txttest = TXTDerlemTR(klasor+"/"+d)
-        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
-        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
-        logfile.flush()
+        turkcemi.mesajyaz("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
+        #print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
+        #logfile.flush()
 
     """
     #pdf uzantılı dosyalar
     klasor, dosyalar = pdf_dosyabul(PDF_KLASOR)
     for d in dosyalar:
         dosyasay +=1
-        print("{} {:06d} {}".format(damgatar(),dosyasay,d))
-        print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
+        turkcemi.mesajyaz("{} {:06d} {}".format(damgatar(),dosyasay,d))
+        #print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
         pdftest = PDFDerlemMiner(klasor+"/"+d)
-        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
-        print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
-        logfile.flush()
+        turkcemi.mesajyaz("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
+        #print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
+        #logfile.flush()
     """
     #log dosyamızı kapatıyoruz
     if logfile:
