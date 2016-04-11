@@ -12,7 +12,6 @@
 
 - Çalışmalarımız 2 koldan yürüyecek: 1- Metin dosyaları üzerinden  2- İnternet üzerinden
 
-- Dosyalarla çalışırken "mükerrer" dosya kullanımından kaçınmak için "hash" fonksiyonlarından yararlanacağız.
 
 ### Yapılacaklar
 

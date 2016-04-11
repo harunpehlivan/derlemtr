@@ -4,10 +4,11 @@
 - turkcemi() fonksiyonu geliştirilecek (2016.03.02)
 - gensozluk.txt dosyasından hatalı ve yabancı sözcükler temizlenecek (2016.03.02)
 - İnternet üzerinden doküman tarama/ sözcük ayrıştırma (2016.02.08)
-- Hürriyet Gazetesi 2011 yılı arşiv taraması (2016.03.21)
-
 
 ### GERÇEKLEŞEN KISA VADELİ HEDEFLER
+- gensozluk.txt MIT lisans bilgileri eklendi (İngilizce ve Türkçe) (2016.04.10 - 2016.04.10)
+- Hürriyet Gazetesi 2009 yılı arşivi tamamlandı (2016.04.08 - 2016.04.10)
+- Hürriyet Gazetesi 2011-2015 yılı arşiv taraması (2016.03.21 - 2016.04.08)
 - Hürriyet Gazetesi 2010 yılı arşiv taraması tamamlandı (2016.03.18) - (2016.03.21)
 - .txt dosyalarının UTF-8, ASCII vb encoding yapısını tanıyıp ona göre çözümleme (2016.02.09) (2016.03.08)
 - Türkçe doküman toplama (2016.02.08) - (2016.03.02)
