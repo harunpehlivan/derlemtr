@@ -20,6 +20,7 @@
 ### Projeye aktif katkıda bulunan kişi ve kuruluşlar
 - Ahmet Aksoy - Yazılım
 - İlker Manap - Yazılım
+- Caner Dağlı - Yazılım
 - Hüseyin Yılmaz: Kaynak temini
 - Hürriyet Gazetesi: Arşiv erişimi
 
