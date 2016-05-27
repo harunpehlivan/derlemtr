@@ -23,6 +23,7 @@
 - Caner Dağlı - Yazılım (Python - Flask)
 - Mehmet Özgür Bayhan - Yazılım (Django)
 - Erhan Büte - Yazılım (Flask)
-- Hüseyin Yılmaz: Kaynak temini
-- Hürriyet Gazetesi: Arşiv erişimi
+- Hüseyin Yılmaz - Kaynak temini
+- Burak Büyükatlı - Eleman desteği (Web)
+- Hürriyet Gazetesi - Arşiv erişimi
 
