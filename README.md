@@ -18,9 +18,11 @@
 - Yapılacaklar [Listeme](/TODO_list.md) Buradan ulaşabilirsiniz
 
 ### Projeye aktif katkıda bulunan kişi ve kuruluşlar
-- Ahmet Aksoy - Yazılım
-- İlker Manap - Yazılım
-- Caner Dağlı - Yazılım
+- Ahmet Aksoy - Yazılım (Python)
+- İlker Manap - Yazılım (Python)
+- Caner Dağlı - Yazılım (Python - Flask)
+- Mehmet Özgür Bayhan - Yazılım (Django)
+- Erhan Büte - Yazılım (Flask)
 - Hüseyin Yılmaz: Kaynak temini
 - Hürriyet Gazetesi: Arşiv erişimi
 
