@@ -1,5 +1,10 @@
 # YAPILACAK İŞLER LİSTESİ
 
+## DEVAM EDEN ÇALIŞMALAR
+- Caner Dağlı: Flask API, Örnek oyun
+- Mehmet Özgür Bayhan: Django site altyapısı
+- Erhan Büte: Flask site altyapısı
+
 ## KISA VADELİ HEDEFLERİMİZ
 - turkcemi() fonksiyonu geliştirilecek (2016.03.02)
 - gensozluk.txt dosyasından hatalı ve yabancı sözcükler temizlenecek (2016.03.02)
