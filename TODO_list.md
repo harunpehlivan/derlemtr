@@ -1,7 +1,8 @@
 # YAPILACAK İŞLER LİSTESİ
 
 ## DEVAM EDEN ÇALIŞMALAR
-- Caner Dağlı: Flask API, Örnek oyun
+- Ahmet Aksoy: Derlem veritabanında düzeltmeler yapılması, oyunlaştırma ve makine öğrenmesi konusunda araştırmalar
+- Caner Dağlı: Derlem veri paylaşımı için flask API, Örnek oyun
 - Mehmet Özgür Bayhan: Django site altyapısı
 - Erhan Büte: Flask site altyapısı
 
