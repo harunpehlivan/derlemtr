@@ -1,4 +1,6 @@
-README.md 
+
+# README.md 
+
 Bu klasörde Word2Vec gibi işlemlerde kullanılmaya uygun Türkçe metin dosyaları paylaşacağız. 
 
 İlk örnek metinler, Hürriyet Gazetesi yönetiminin izniyle, gazete arşivlerinden derlenmiştir. Dosya içeriği kabaca dosya başlığından anlaşılabilir. 
