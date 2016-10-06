@@ -10,3 +10,7 @@ Bu klasörde Word2Vec gibi işlemlerde kullanılmaya uygun Türkçe metin dosyal
 "hurriyet_noktasiz_2010_01.txt.rar" isimli dosya ise, noktalama işaretleri temizlenerek ve kalan sözcükler ardışık şekilde birbirine eklenerek elde edilmiştir. Bu dosya da rar formatıyla sıkıştırılmıştır. 
 
 Word2Vec çalışmalarında noktalama işaretleri temizlenmiş dosyalar tercih edilmektedir.
+
+Github büyük boyutlu dosyaların paylaşımına sıcak bakmadığı için, paylaştığım bazı veri dosyalarına aşağıdaki link adresinden ulaşabilirsiniz:
+https://drive.google.com/drive/folders/0B_iRLUok9_qqOFozeHNFMjRHTVk
+
