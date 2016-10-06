@@ -14,3 +14,5 @@ Word2Vec çalışmalarında noktalama işaretleri temizlenmiş dosyalar tercih e
 Github büyük boyutlu dosyaların paylaşımına sıcak bakmadığı için, paylaştığım bazı veri dosyalarına aşağıdaki link adresinden ulaşabilirsiniz:
 https://drive.google.com/drive/folders/0B_iRLUok9_qqOFozeHNFMjRHTVk
 
+Veri dosyalarına ilişkin açıklayıcı bilgiler help dosyasında bulunmaktadır.
+
