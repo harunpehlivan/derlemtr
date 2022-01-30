@@ -61,7 +61,7 @@ def kucukHarfYap(sozcuk):
                 ss += KHARFX[j]
                 ok = True
                 break
-        if ok == False:
+        if not ok:
             ss += sozcuk[i]
     ss = ss.lower()
     return ss
@@ -69,13 +69,13 @@ def kucukHarfYap(sozcuk):
 def inceltme_yok(sozcuk):
     s=""
     for harf in sozcuk:
-        if harf=='â' or harf=='Â':
+        if harf in ['â', 'Â']:
             s += 'a'
-        elif harf == 'ê' or harf=='Ê':
+        elif harf in ['ê', 'Ê']:
             s += 'e'
-        elif harf == 'û' or harf=='Û':
+        elif harf in ['û', 'Û']:
             s += 'u'
-        elif harf == 'î' or harf=='Î':
+        elif harf in ['î', 'Î']:
             s += 'i'
         else:
             s+=harf
@@ -83,7 +83,7 @@ def inceltme_yok(sozcuk):
 
 def escape_tire(s):
     tireler={" 'da ":"\'da "," 'de ":"\'de "," 'ın ":"\'ın "," 'in ":"\'in "," 'un ":"\'un "," 'ün ":"\'ün "}
-    for tire in tireler.keys():
+    for tire in tireler:
         s = s.replace(tire,tireler[tire])
 
     return s
@@ -98,9 +98,7 @@ def kelimelere_ayir(haber):
     for kelime in haber.split():
         if kelime.isalpha():
             sozcukler.append(kelime)
-        elif kelime.isalnum() or kelime.isdigit():
-            pass
-        else:
+        elif not kelime.isalnum() and not kelime.isdigit():
             k = kelime.strip(AYRACLAR)
             sozcukler.append(k)
     # Dikkat' Gerekirse burada tek tırnak ile bölünen Özel_isim'ek tek bir sözcük haline dönüştürülebilir.
@@ -108,7 +106,7 @@ def kelimelere_ayir(haber):
     sozluk={}
     for sozcuk in sozcukler:
         sozcuk = inceltme_yok(kucukHarfYap(sozcuk))
-        if sozcuk in sozluk.keys():
+        if sozcuk in sozluk:
             sozluk[sozcuk] +=1
         else:
             sozluk[sozcuk] =1
@@ -121,7 +119,6 @@ def metin_cozumle(haber):
         print(s)
 
 if __name__ == "__main__":
-    f = open("test.txt","r",encoding="utf-8")
-    haber = f.read()
-    f.close()
+    with open("test.txt","r",encoding="utf-8") as f:
+        haber = f.read()
     metin_cozumle(haber)

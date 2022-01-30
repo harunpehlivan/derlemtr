@@ -43,7 +43,7 @@ if __name__ == '__main__':
                     for text in dosya:
                         for i in range(len(text)):
                             c= text[i]
-                            if c in harfler.keys():
+                            if c in harfler:
                                 harfler[c] +=1
                             else:
                                 harfler[c] =1

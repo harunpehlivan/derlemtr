@@ -66,7 +66,7 @@ def sayfa_oku(b,basla):
     #global sayfasay
     basla = time.perf_counter()
     sayfa = sayfaOku(b)
-    if sayfa == None:
+    if sayfa is None:
         print("{} Sayfa okunamadı: {}".format(modname,b))
         #print("{} Sayfa okunamadı: {}".format(modname,b),file=outfile, flush=True)
         turkcemi.mesajyaz("{} Sayfa okunamadı: {}".format(modname,b))
@@ -122,22 +122,20 @@ def sayfa_oku(b,basla):
 def kategori_kaydet(driver):
     driver.get(base_url)
     element = driver.find_element_by_class_name('jspPane')
-    fk=open("global_kategori.txt","w",encoding="utf-8")
-    lkategori = element.find_elements_by_xpath("//li/a[@href]")
-    for kategori in lkategori:
-        b = kategori.get_attribute('href')
-        if base_url in b:
-            fk.write(b)
-    fk.close()
+    with open("global_kategori.txt","w",encoding="utf-8") as fk:
+        lkategori = element.find_elements_by_xpath("//li/a[@href]")
+        for kategori in lkategori:
+            b = kategori.get_attribute('href')
+            if base_url in b:
+                fk.write(b)
     return
 
 def kategori_oku():
     kategorilistesi=[]
-    fk=open("global_kategori.txt","r",encoding="utf-8")
-    liste = fk.readlines()
-    for kat in liste:
-        kategorilistesi.append(kat.strip())
-    fk.close()
+    with open("global_kategori.txt","r",encoding="utf-8") as fk:
+        liste = fk.readlines()
+        for kat in liste:
+            kategorilistesi.append(kat.strip())
     return kategorilistesi
 
 def kategori_sayfa(driver,kategori):
@@ -205,7 +203,7 @@ def kategori_sayfa(driver,kategori):
                 print(sayfa.text)
 
         # next yoksa döngüden çık
-        if next == None: break
+        if next is None: break
         if sonsayfa == True: break
         next.click()
 
@@ -218,19 +216,19 @@ def main():
         if driver != None:
             #kategori_kaydet(driver)
             kategorilistesi=kategori_oku()
+            #outfile = open(outfilename,"a",encoding="utf-8")
+            #LOGFILE = "loglar/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
+            #logging.basicConfig(filename=outfilename, level=logging.INFO)
+            sayfasay = 1        #Yeni kategori için başlangıç sayfano
             for kategori in kategorilistesi:
                 #if outfile: outfile.close()
                 turkcemi.outfilename = "temp/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
-                #outfile = open(outfilename,"a",encoding="utf-8")
-                #LOGFILE = "loglar/"+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")+modname+".txt"
-                #logging.basicConfig(filename=outfilename, level=logging.INFO)
-                sayfasay = 1        #Yeni kategori için başlangıç sayfano
                 print("\n{} Kategori: {} Sayfasay: {}".format(damgatar(),kategori,sayfasay),flush=True)
                 #print("\n{} Kategori: {} Sayfasay: {}".format(damgatar(),kategori,sayfasay),file=outfile,flush=True)
                 turkcemi.mesajyaz("\n{} Kategori: {} Sayfasay: {}".format(damgatar(),kategori,sayfasay))
                 kategori_sayfa(driver,kategori)
     finally:
-        if driver==None:
+        if driver is None:
             print("Driver açılamadı!")
             #print("Driver açılamadı!",file=outfile,flush=True)
             turkcemi.mesajyaz("Driver açılamadı!")

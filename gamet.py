@@ -67,7 +67,7 @@ def load_arsiv_page(driver,adres):
         #link başka bir siteye ait olmasın
         if base_url in b:
             sayfa = turlib.sayfaOku(b)
-            if sayfa == None:
+            if sayfa is None:
                 print("gamet.py Sayfa okunamadı: {}".format(b))
                 print("gamet.py Sayfa okunamadı: {}".format(b),file=outfile, flush=True)
                 continue
@@ -104,8 +104,8 @@ def load_arsiv_page(driver,adres):
                     print("gamet.py Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.")
                     print("gamet.py Bu metin Türkçe değildir veya yeterli sayıda geçerli Türkçe sözcük barındırmamaktadır.",file=logfile,flush=True)
         else:
-             print("gamet.py Link başka siteye aittir: {}".format(b))
-             print("gamet.py Link başka siteye aittir: {}".format(b),file=logfile,flush=True)
+            print("gamet.py Link başka siteye aittir: {}".format(b))
+            print("gamet.py Link başka siteye aittir: {}".format(b),file=logfile,flush=True)
 
 def main():
     driver = get_driver()

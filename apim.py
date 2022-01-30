@@ -9,19 +9,12 @@ with open('static/kelimeler.txt',encoding='utf-8') as fd:
         kelimeler.append(kelime.strip())
 
 def get_random_kelime(say):
-    if say is None: n = 1
-    else: n = say
+    n = 1 if say is None else say
     if n<1: n = 1
     elif n>10: n = 10
 
-    sayilar = []
-    for m in range(n):
-        sayilar.append(random.randrange(len(kelimeler)))
-
-    kelimelist=[]
-    for m in range(n):
-        kelimelist.append(kelimeler[sayilar[m]])
-    return kelimelist
+    sayilar = [random.randrange(len(kelimeler)) for _ in range(n)]
+    return [kelimeler[sayilar[m]] for m in range(n)]
         
 def kelime_yolla():
     return {
@@ -31,16 +24,12 @@ def kelime_yolla():
 
 @app.route("/", methods=['GET'])
 def bos_kelime_listesi():
-    liste = {'0':'Lütfen doğru parametre girin'}
-    return liste
+    return {'0':'Lütfen doğru parametre girin'}
 
 @app.route("/<int:key>/", methods=['GET'])
 def kelime_listesi(key):
     kelimelist = get_random_kelime(key)
-    liste = {}
-    for i in range(len(kelimelist)):
-        liste[i]=kelimelist[i]
-    return liste
+    return {i: kelimelist[i] for i in range(len(kelimelist))}
 
 @app.route("/kelime/", methods=['GET'])
 def tek_kelime():

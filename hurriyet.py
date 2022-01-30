@@ -44,7 +44,7 @@ def get_driver():
 
 def sayfa_oku(b,basla):
     sayfa = turlib.sayfaOku(b)
-    if sayfa == None:
+    if sayfa is None:
         turkcemi.mesajyaz("{} Sayfa okunamadı: {}".format(modname,b))
         return
 

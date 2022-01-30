@@ -10,9 +10,10 @@ geçersiz olanları xgensozluk.txt ve geçerli olanları
 ygensozluk.txt dosyasına kaydediyor
 """
 
+
 alfabe_kh = "abcçdefgğhıijklmnoöprsştuüvyz"
 
-gensozluk = dict()
+gensozluk = {}
 def gensozluk_oku():
     try:
         with open("eski-gensozluk.txt",encoding="utf-8") as f:
@@ -23,19 +24,18 @@ def gensozluk_oku():
         pass
 
 def sozluk_kaydet(fad,sozluk):
-    fout = open(fad, "w", encoding="utf-8")
-    sd = sorted(sozluk.items(), key=lambda x:x[1], reverse=True)
-    for saz in sd:
-        s = "{:08d} {}\n".format(int(saz[1]), saz[0])
-        fout.write(s)
-    fout.close()
+    with open(fad, "w", encoding="utf-8") as fout:
+        sd = sorted(sozluk.items(), key=lambda x:x[1], reverse=True)
+        for saz in sd:
+            s = "{:08d} {}\n".format(int(saz[1]), saz[0])
+            fout.write(s)
 
 
 if __name__ == "__main__":
     gensozluk_oku()
     qgensozluk = dict()     #qwx geçen sözcükler
-    xgensozluk = dict()     #diğer hatalı sözcükler
-    ygensozluk = dict()     #sadece Türkçe karakter içeren sözcükler
+    xgensozluk = {}
+    ygensozluk = {}
     for key in gensozluk.keys():
         qsay=0
         xsay=0

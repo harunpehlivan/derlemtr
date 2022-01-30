@@ -20,7 +20,7 @@ KHARFX = "ıi"
 AYRACLAR = ",\.;«»!?-:/\*+_=\"<>()'[]|º#&%"
 
 #Asıl bilgiler bu sozlukte yer alacak sozcuk:frekans
-anaSozluk = dict()
+anaSozluk = {}
 
 def kucukHarfYap(sozcuk):
     ss = ''
@@ -31,7 +31,7 @@ def kucukHarfYap(sozcuk):
                 ss += KHARFX[j]
                 ok = True
                 break
-        if ok == False:
+        if not ok:
             ss += sozcuk[i]
     ss = ss.lower()
     return ss
@@ -42,10 +42,9 @@ def txt_dosyabul(klasor):
     #klasördeki .txt uzantılı ve ismi zzz_ ile başlamayan dosyaları bul
     for dir, dirs, files in os.walk(klasor):
         for dosya in files:
-            if dosya.endswith(".txt"):
-                if not dosya.startswith("zzz_"):
-                    #liste.append(os.path.join(root,dosya))
-                    liste.append(dosya)
+            if dosya.endswith(".txt") and not dosya.startswith("zzz_"):
+                #liste.append(os.path.join(root,dosya))
+                liste.append(dosya)
 
     return klasor, liste
 
@@ -72,9 +71,7 @@ def txt_dosyaOku(klasor, dosya):
                         sozcukler.append(kelime)
                     elif kelime.isalnum():
                         pass
-                    elif kelime.isdigit():
-                        pass
-                    else:
+                    elif not kelime.isdigit():
                         k = kelime.strip(AYRACLAR)
                         sozcukler.append(k)
                 sat0=''
@@ -87,14 +84,11 @@ def is_tek_tire_var(sozcuk):
     var = 0
     for say in range(len(sozcuk)):
         if sozcuk[say] == "-":
-            if say==0 or say == len(sozcuk)-1:
+            if say in [0, len(sozcuk) - 1]:
                 return False
             var +=1
 
-    if var==1:
-        return True
-    else:
-        return False
+    return var==1
 
 def is_tirnak_icinde(sozcuk):
     if sozcuk[0]=="'" or sozcuk[-1]== "'":
@@ -111,7 +105,7 @@ def is_tek_tirnak_alpha(sozcuk):
     say0=-1
     for say in range(len(sozcuk)):
         if sozcuk[say] == "'":
-            if say==0 or say == len(sozcuk)-1:
+            if say in [0, len(sozcuk) - 1]:
                 return False
             if say0<0:
                 say0 = say
@@ -120,20 +114,15 @@ def is_tek_tirnak_alpha(sozcuk):
     if var==1:
         s1 = sozcuk[:say0]
         s2 = sozcuk[say0+1:]
-        if s1.isalpha() and s2.isalpha():
-            return True
-        else:
-            return False
+        return bool(s1.isalpha() and s2.isalpha())
     else:
         return False
 
 def alfabetik(sozluk):
-    ys = OrderedDict(sorted(sozluk.items(),key=itemgetter(0)))
-    return ys
+    return OrderedDict(sorted(sozluk.items(),key=itemgetter(0)))
 
 def frekansa_gore(sozluk):
-    ys = OrderedDict(sorted(sozluk.items(),key=itemgetter(1)))
-    return ys
+    return OrderedDict(sorted(sozluk.items(),key=itemgetter(1)))
 
 
 if __name__ == "__main__":
@@ -153,13 +142,17 @@ if __name__ == "__main__":
                 continue
             #TODO: apostrof kullanıldıysa sözcük ve ekini ayırmak doğru olur mu?
             #TODO: isalpha kontrolü yap - tırnak varsa sorun olacak
-            if is_tek_tirnak_alpha(sozcuk):
-                pass
-            elif is_tek_tire_var(sozcuk):
-                pass
-            elif sozcuk.isalpha():
-                pass
-            else:
+            if (
+                not is_tek_tirnak_alpha(sozcuk)
+                and (
+                    is_tek_tirnak_alpha(sozcuk) or not is_tek_tire_var(sozcuk)
+                )
+                and (
+                    is_tek_tirnak_alpha(sozcuk)
+                    or is_tek_tire_var(sozcuk)
+                    or not sozcuk.isalpha()
+                )
+            ):
                 hatalar.append(sozcuk)
                 continue
 
@@ -182,21 +175,11 @@ if __name__ == "__main__":
 
     #alfabetik sıralama yapalım
     ays= alfabetik(anaSozluk)
-    fout=open("sozler.txt","w")
-
-    #frekansa göre sıralama yapalım
-    #ays= frekansa_gore(anaSozluk)
-    #fout=open("frekans.txt","w")
-
-    i = 1
-    #for sozcuk,frekans in anaSozluk.items():
-    for sozcuk,frekans in ays.items():
-        #print("{>:6d} {<30:}:{>:6d}".format(i, sozcuk,frekans))
-        print("{}:{}".format(sozcuk,frekans),file=fout)
-        i+=1
-    fout.close()
-
-    fout = open("hatalar.txt","w")
-    for hata in hatalar:
-        print("{}".format(hata),file=fout)
-    fout.close()
+    with open("sozler.txt","w") as fout:
+            #for sozcuk,frekans in anaSozluk.items():
+        for i, (sozcuk, frekans) in enumerate(ays.items(), start=1):
+            #print("{>:6d} {<30:}:{>:6d}".format(i, sozcuk,frekans))
+            print("{}:{}".format(sozcuk,frekans),file=fout)
+    with open("hatalar.txt","w") as fout:
+        for hata in hatalar:
+            print("{}".format(hata),file=fout)

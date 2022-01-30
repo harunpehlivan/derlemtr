@@ -21,12 +21,11 @@ logfile dosyası program boyunca açık kalıyor.
 logfile = None
 def logfile_ac():
     LOGFILE = "loglar/derlemlog"+"{}.txt".format(datetime.datetime.now().strftime("%Y%m%d"))
-    logfile = open(LOGFILE,"a+")
-    return logfile
+    return open(LOGFILE,"a+")
 
 #Sözcükler ve frekansları bu sözlükte tutuluyor. Veri tabanı şimdilik devre dışı.
 #Açılışta gensozluk.txt dosyası okunuyor, çıkışta dosya yeniden yazılıyor.
-gensozluk = dict()
+gensozluk = {}
 def gensozluk_oku():
     try:
         with open(GENSOZLUK_DOSYA_ADI,encoding="utf-8") as f:
@@ -51,7 +50,7 @@ def kucukHarfYap(sozcuk):
                 ss += KHARFX[j]
                 ok = True
                 break
-        if ok == False:
+        if not ok:
             ss += sozcuk[i]
     ss = ss.lower()
     return ss
@@ -59,13 +58,13 @@ def kucukHarfYap(sozcuk):
 def inceltme_yok(sozcuk):
     s=""
     for harf in sozcuk:
-        if harf=='â' or harf=='Â':
+        if harf in ['â', 'Â']:
             s += 'a'
-        elif harf == 'ê' or harf=='Ê':
+        elif harf in ['ê', 'Ê']:
             s += 'e'
-        elif harf == 'û' or harf=='Û':
+        elif harf in ['û', 'Û']:
             s += 'u'
-        elif harf == 'î' or harf=='Î':
+        elif harf in ['î', 'Î']:
             s += 'i'
         else:
             s+=harf
@@ -74,10 +73,7 @@ def inceltme_yok(sozcuk):
 
 class Veritabani:
     def __init__(self, dosya=None):
-        if dosya is None:
-            self.vt = sql.connect(":memory:")
-        else:
-            self.vt = sql.connect(dosya)
+        self.vt = sql.connect(":memory:") if dosya is None else sql.connect(dosya)
 
     def sema(self, sema):
         cr = self.vt.cursor()
@@ -104,7 +100,7 @@ class AnaSozluk(Veritabani):
         except:
             yeni = True
 
-        if (yeni is True) or (os.path.isfile(dosya) is False):
+        if yeni or os.path.isfile(dosya) is False:
             self.sema("CREATE TABLE sozcukler (sozcuk TEXT, frekans INT)")
 
     def eski_liste_ekle(self, liste):
@@ -132,13 +128,11 @@ class AnaSozluk(Veritabani):
                 gensozluk[soz]=sayi_
                 #print("{:08d} {}".format(sayi_,soz))
 
-        fout = open(GENSOZLUK_DOSYA_ADI, "w", encoding="utf-8")
-        sd = sorted(gensozluk.items(), key=lambda x:x[1], reverse=True)
-        for saz in sd:
-            s = "{:08d} {}\n".format(int(saz[1]), saz[0])
-            fout.write(s)
-        fout.close()
-
+        with open(GENSOZLUK_DOSYA_ADI, "w", encoding="utf-8") as fout:
+            sd = sorted(gensozluk.items(), key=lambda x:x[1], reverse=True)
+            for saz in sd:
+                s = "{:08d} {}\n".format(int(saz[1]), saz[0])
+                fout.write(s)
         #print()
         turkcemi.mesajyaz("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say))
         #print("{} derlem.py Toplam= {} Ayrık= {} Bulunan= {} Bulunma Oranı= % {}".format(damgatar(),gentop, say,var,100*var/say),file=logfile,flush=True)
@@ -149,10 +143,10 @@ class AnaSozluk(Veritabani):
         if kelime is not None:
             if frekans == 0:
                 sorgu_cumlesi = 'insert into sozcukler values("%s", 1) ' % kelime
-                self.sorgu(sorgu_cumlesi)
             else:
                 sorgu_cumlesi = "update sozcukler set frekans = %d where sozcuk = '%s'  " % (frekans + sayi, kelime)
-                self.sorgu(sorgu_cumlesi)
+
+            self.sorgu(sorgu_cumlesi)
 
     def kontrol(self, sozcuk):
         cr = self.vt.cursor()
@@ -176,10 +170,7 @@ class AnaSozluk(Veritabani):
         return True
 
     def bellek_hepsi_varmi(self,liste):
-        for kelime, sayi_ in liste.items():
-            if kelime not in gensozluk.keys():
-                return False
-        return True
+        return all(kelime in gensozluk.keys() for kelime, sayi_ in liste.items())
 
     def kapat(self):
         self.vt.commit()
@@ -194,9 +185,7 @@ class Derlem:
 
     def incele(self):
         def is_tek_tire_var(sozcuk_):
-            if sozcuk_.count("-") == 1:
-                return True
-            return False
+            return sozcuk_.count("-") == 1
 
         def is_tirnak_icinde(sozcuk_):
             if sozcuk_[0] == "'" or sozcuk_[-1] == "'":
@@ -217,10 +206,7 @@ class Derlem:
             if var == 1:
                 s1 = sozcuk_[:say0]
                 s2 = sozcuk_[say0 + 1:]
-                if s1.isalpha() and s2.isalpha():
-                    return True
-                else:
-                    return False
+                return bool(s1.isalpha() and s2.isalpha())
             else:
                 return False
 
@@ -309,9 +295,6 @@ class PDFDerlemMiner(Derlem):
                 retstr.close()
             except Exception as e:
                 turkcemi.mesajyazprint("{} derlem.py {}".format(damgatar(),e))
-                #print("{} derlem.py {}".format(damgatar(),e),file=logfile)
-                #logfile.flush()
-                pass
             return content
 
         icerik = ""
@@ -378,19 +361,17 @@ class TXTDerlemTRText(Derlem):
 #Hatalı girişler zamanla listenin sonunda kalacakları için elenecekler
 def dosyaya():
     vt = sql.connect('anasozluk.db')
-    tf = open("veri/sqlite_dokum.txt","w")
-    cr = vt.cursor()
-    sorgu = "select * from sozcukler ORDER BY frekans DESC"
+    with open("veri/sqlite_dokum.txt","w") as tf:
+        cr = vt.cursor()
+        sorgu = "select * from sozcukler ORDER BY frekans DESC"
 
-    cr.execute(sorgu)
-    vt.commit()
-    cevaplar = cr.fetchall()
-    if cevaplar:
-        for cevap in cevaplar:
-            satir = "{:08d} {}\n".format(cevap[1],cevap[0])
-            tf.write(satir)
+        cr.execute(sorgu)
+        vt.commit()
+        if cevaplar := cr.fetchall():
+            for cevap in cevaplar:
+                satir = "{:08d} {}\n".format(cevap[1],cevap[0])
+                tf.write(satir)
 
-    tf.close()
     vt.close()
 
 def txt_dosyabul(klasor):
@@ -415,28 +396,21 @@ def pdf_dosyabul(klasor):
 if __name__ == '__main__':
     #assert kucukHarfYap("ÇĞIİÖŞÜ")=="çğıiöşü"
     basla = time.perf_counter()
-    #htmltest = HTMLDerlem("http://manap.se/test.txt")
-    #pdftest = PDFDerlemMiner("veri/test.pdf")
-    #txttest = TXTDerlem("veri/txttest.txt")
-    #dosyaya()
-    TXT_KLASOR = "D:/aaa-kaynaklar"
     PDF_KLASOR = "D:/aaa-pdfler"
-    TXT_KLASOR = "D:/aaa-kaynaklar2"
-    TXT_KLASOR = "D:/aaa-kaynaklar3"
     gensozluk_oku()
     logfile = logfile_ac()
-    dosyasay =0
-
+    TXT_KLASOR = "D:/aaa-kaynaklar"
+    TXT_KLASOR = "D:/aaa-kaynaklar2"
+    TXT_KLASOR = "D:/aaa-kaynaklar3"
     #txt uzantılı dosyalar
     klasor, dosyalar = txt_dosyabul(TXT_KLASOR)
-    for d in dosyalar:
-        dosyasay +=1
+    for dosyasay, d in enumerate(dosyalar, start=1):
         turkcemi.mesajyaz("{} {:06d} {}".format(damgatar(),dosyasay,d))
         #print("{} {:06d} {}".format(damgatar(),dosyasay,d), file=logfile)
         txttest = TXTDerlemTR(klasor+"/"+d)
         turkcemi.mesajyaz("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla))
-        #print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
-        #logfile.flush()
+            #print("{} Toplam çalışma süresi = {} saniye".format(damgatar(),time.perf_counter()-basla),file=logfile)
+            #logfile.flush()
 
     """
     #pdf uzantılı dosyalar

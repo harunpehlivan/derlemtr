@@ -26,11 +26,11 @@ with open("./veri/encok.txt",encoding="utf-8") as fin:
 print("encok boyu = "+str(len(encok)))
 
 def ayraclari_kaldir(string):
-    ystring=''
-    for i in range(len(string)):
-        if string[i] not in AYRACLAR+" ":
-            ystring += string[i]
-    return ystring
+    return ''.join(
+        string[i]
+        for i in range(len(string))
+        if string[i] not in AYRACLAR + " "
+    )
 
 def kucukHarfYap(sozcuk):
     ss = ''
@@ -41,7 +41,7 @@ def kucukHarfYap(sozcuk):
                 ss += KHARFX[j]
                 ok = True
                 break
-        if ok == False:
+        if not ok:
             ss += sozcuk[i]
     ss = ss.lower()
     return ss
@@ -49,11 +49,11 @@ def kucukHarfYap(sozcuk):
 def inceltme_yok(sozcuk):
     s=""
     for harf in sozcuk:
-        if harf=='â' or harf=='Â':
+        if harf in ['â', 'Â']:
             s += 'a'
-        elif harf == 'ê' or harf=='Ê':
+        elif harf in ['ê', 'Ê']:
             s += 'e'
-        elif harf == 'û' or harf=='Û':
+        elif harf in ['û', 'Û']:
             s += 'u'
         else:
             s+=harf
@@ -79,9 +79,7 @@ def parcala(metin):
                     sozcukler.append(kelime)
                 elif kelime.isalnum():
                     pass
-                elif kelime.isdigit():
-                    pass
-                else:
+                elif not kelime.isdigit():
                     k = kelime.strip(AYRACLAR)
                     sozcukler.append(k)
             sat0=''

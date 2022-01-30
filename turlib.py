@@ -22,10 +22,7 @@ def hepsi_turkceye(kelime):
 #Ayraçları kaldırdıktan sonra kalanların hepsi Türkçe karakter mi?
 def hepsi_turkce(kelime):
     sozcuk = hepsi_turkceye(kelime)
-    for c in sozcuk:
-        if c not in alfabe_kh:
-            return False
-    return True
+    return all(c in alfabe_kh for c in sozcuk)
 
 #damga() fonksiyonu log satırlarının zamanını vurgulamak için kullanılıyor
 def damgatar():
@@ -71,10 +68,8 @@ def linkleriAl(sayfa_url):
                     path = get_path1(adres)
                     linkler.append(base_url+"/"+path)
     except Exception as e:
-        fout2 = open("outfile.txt","a",encoding="utf-8")
-        print(e,file=fout2, flush=True)
-        fout2.close()
-        pass
+        with open("outfile.txt","a",encoding="utf-8") as fout2:
+            print(e,file=fout2, flush=True)
     return linkler
 
 def sayfaOku(sayfa_url):

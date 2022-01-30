@@ -114,12 +114,12 @@ def ana():
     #kelimeler =["endüstriyel","bursaspor"]
     #fout = open("yabanci_kokenli.txt","w", encoding="utf-8")
     fout=sys.stdout
-    #kelimeler = kelimeOku()
-    kelimesay =0
     for kelime in kelimeler:
         s,n,oz,yab,yok = hecele(kelime, False)
         #print(s)
-        j=0; ss = '';tiresay=0
+        j=0
+        ss = ''
+        tiresay=0
         for i in range(len(s)):
             if s[i]=='-':
                 ss+='-'
@@ -139,9 +139,6 @@ def ana():
                 oztr = 'Yabancı kökenli'
                 #print("{} {}".format(ss,oztr),file=fout,flush=True)
             print("{} {} {} {} {}".format(ss,oz,yab,yok,oztr))
-
-        kelimesay+=1
-        #if kelimesay>10000: break
 
     fout.close()
 
